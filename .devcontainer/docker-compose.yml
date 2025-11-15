@@ -1,0 +1,13 @@
+services:
+  flutter:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        CONTAINER_USER: vscode
+        CONTAINER_WORKDIR: /workspace
+    tty: true
+    volumes:
+      - ..:/workspace
+    # LinuxのFlutterがx64アーキテクチャにしか対応していないため設定
+    platform: linux/x86_64
