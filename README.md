@@ -7,10 +7,34 @@
 Flutterプロジェクト自体は作成されていません。vscode拡張機能の.devcontainerで起動後、以下のコマンドでプロジェクトを作成してください。
 ```bash
 flutter create --org your_domain --project-name your_app_name .
-```
-例）
-```bash
+#例）
 flutter create --org io.github.yumaseno --project-name test .
+```
+---
+また、開発時にはRiverpod, flutter_hooks, go_router, freezedの利用をおすすめします。
+```bash
+flutter pub add hooks_riverpod riverpod_annotation flutter_hooks
+flutter pub add --dev build_runner freezed json_serializable custom_lint riverpod_generator riverpod_lint
+```
+analysis_options.yaml
+```yaml
+analyzer:
+  plugins:
+    - custom_lint
+```
+build.yaml (プロジェクトのルートディレクトリに作成)
+```yaml
+targets:
+  $default:
+    builders:
+      source_gen|combining_builder:
+        options:
+          build_extensions:
+            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
+```
+ターミナルを一つ起動し以下のコマンドを常駐させてください。
+```bash
+dart run build_runner watch --delete-conflicting-outputs
 ```
 
 ## ADB接続方法メモ
