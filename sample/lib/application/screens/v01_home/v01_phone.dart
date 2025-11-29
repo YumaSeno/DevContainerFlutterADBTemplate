@@ -42,49 +42,52 @@ class _PhoneBody extends HookWidget {
       body: Center(
         child: ListView(
           children: [
-            const Text(
+            Text(
               'Phone 向け表示',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 16),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: context.w(100) - 16,
-                  child: CounterCard(
-                    title: 'Hook (Local)',
-                    description:
-                        'このカウンタはローカル（ウィジェット内）にのみ影響します。画面外で値は管理されません。\r\nスマホ・タブレットの切替時にもリセットされます。',
-                    count: countByHooks.value,
-                    onIncrement: () => countByHooks.value++,
-                    accentColor: Theme.of(context).colorScheme.secondary,
-                    icon: Icons.build,
+            const ScaledSizedBox(height: 16),
+            ScaledPadding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 12.scaled(context),
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: CounterCard(
+                      title: 'Hook (Local)',
+                      description:
+                          'このカウンタはローカル（ウィジェット内）にのみ影響します。画面外で値は管理されません。\r\nスマホ・タブレットの切替時にもリセットされます。',
+                      count: countByHooks.value,
+                      onIncrement: () => countByHooks.value++,
+                      accentColor: Theme.of(context).colorScheme.secondary,
+                      icon: Icons.build,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                SizedBox(
-                  width: context.w(100) - 16,
-                  child: Consumer(
-                    builder: (context, ref, child) {
-                      final state = ref.watch(_viewModelProvider);
-                      return ExpenseCard(
-                        title: 'Expenses (App)',
-                        description: 'この領域はドメイン（経費）ロジックのサンプルです。',
-                        totalLabel: state.monthlyTotalLabel,
-                        itemCount: state.expenseCount,
-                        onAddSample: () => ref
-                            .read(_viewModelProvider.notifier)
-                            .addSampleExpense(),
-                        onClear: () => ref
-                            .read(_viewModelProvider.notifier)
-                            .clearExpenses(),
-                      );
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        final state = ref.watch(_viewModelProvider);
+                        return ExpenseCard(
+                          title: 'Expenses (App)',
+                          description: 'この領域はドメイン（経費）ロジックのサンプルです。',
+                          totalLabel: state.monthlyTotalLabel,
+                          itemCount: state.expenseCount,
+                          onAddSample: () => ref
+                              .read(_viewModelProvider.notifier)
+                              .addSampleExpense(),
+                          onClear: () => ref
+                              .read(_viewModelProvider.notifier)
+                              .clearExpenses(),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

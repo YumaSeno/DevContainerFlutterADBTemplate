@@ -1,3 +1,5 @@
+import 'package:cariri/application/components/scaled_padding.dart';
+import 'package:cariri/application/components/scaled_sizedbox.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

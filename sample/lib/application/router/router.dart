@@ -5,10 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     routes: <RouteBase>[
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const V01(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const V01()),
     ],
   );
 });

@@ -1,3 +1,6 @@
+import 'package:cariri/application/components/scaled_padding.dart';
+import 'package:cariri/application/components/scaled_sizedbox.dart';
+import 'package:cariri/application/utils.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseCard extends StatelessWidget {
@@ -22,8 +25,10 @@ class ExpenseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.scaled(context)),
+      ),
+      child: ScaledPadding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -35,27 +40,28 @@ class ExpenseCard extends StatelessWidget {
                 context,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 8),
+            const ScaledSizedBox(height: 8),
             Text(
               description,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            const SizedBox(height: 16),
+            const ScaledSizedBox(height: 16),
             Text(
               totalLabel,
               style: Theme.of(
                 context,
               ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const ScaledSizedBox(height: 8),
             Text(
               'Items: $itemCount',
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            const SizedBox(height: 12),
+            const ScaledSizedBox(height: 12),
             Wrap(
               alignment: WrapAlignment.center,
+              spacing: 5.scaled(context),
               children: [
                 ElevatedButton.icon(
                   onPressed: onAddSample,
@@ -66,7 +72,6 @@ class ExpenseCard extends StatelessWidget {
                     foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
-                const SizedBox(width: 5),
                 OutlinedButton(onPressed: onClear, child: const Text('Clear')),
               ],
             ),

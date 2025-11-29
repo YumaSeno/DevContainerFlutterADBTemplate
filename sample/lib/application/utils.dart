@@ -7,3 +7,11 @@ extension ResponsiveSize on BuildContext {
   // 画面高さに対する割合
   double h(double percent) => MediaQuery.of(this).size.height * (percent / 100);
 }
+
+extension TextScaleExtension on num {
+  /// 数値を現在のテキスト倍率でスケーリングして返す
+  /// Webの rem のような挙動を再現
+  double scaled(BuildContext context) {
+    return MediaQuery.textScalerOf(context).scale(toDouble());
+  }
+}
