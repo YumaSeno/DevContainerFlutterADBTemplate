@@ -13,7 +13,7 @@ flutter create --org io.github.yumaseno --project-name test .
 ---
 また、開発時にはRiverpod, flutter_hooks, go_router, freezedの利用をおすすめします。
 ```bash
-flutter pub add hooks_riverpod riverpod_annotation flutter_hooks
+flutter pub add hooks_riverpod riverpod_annotation freezed_annotation flutter_hooks go_router
 flutter pub add --dev build_runner freezed json_serializable custom_lint riverpod_generator riverpod_lint
 ```
 analysis_options.yaml
@@ -21,16 +21,6 @@ analysis_options.yaml
 analyzer:
   plugins:
     - custom_lint
-```
-build.yaml (プロジェクトのルートディレクトリに作成)
-```yaml
-targets:
-  $default:
-    builders:
-      source_gen|combining_builder:
-        options:
-          build_extensions:
-            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
 ```
 ターミナルを一つ起動し以下のコマンドを常駐させてください。
 ```bash
