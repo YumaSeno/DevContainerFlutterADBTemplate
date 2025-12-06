@@ -5,8 +5,12 @@ SHELL ["/bin/bash", "-c"]
 
 # 必要なパッケージのインストール
 RUN apt-get update && \
-    apt-get install -y curl git wget unzip zip xz-utils sudo && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y curl git wget unzip zip xz-utils && \
+    apt-get install -y clang cmake pkg-config ninja-build libgtk-3-dev mesa-utils npm
+RUN rm -rf /var/lib/apt/lists/*
+
+# 開発に利用するfirebase-tools と gemini-cli のインストール
+RUN npm install -g firebase-tools @google/gemini-cli
 
 # 開発者ユーザーの追加とsudo権限の付与
 ARG CONTAINER_USER
