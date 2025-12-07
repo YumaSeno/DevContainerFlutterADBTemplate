@@ -1,16 +1,29 @@
-import 'package:cariri/application/components/scaled_padding.dart';
-import 'package:cariri/application/components/scaled_sizedbox.dart';
-import 'package:cariri/application/utils.dart';
+import 'package:cariri/presentation/components/scaled_padding.dart';
+import 'package:cariri/presentation/components/scaled_sizedbox.dart';
+import 'package:cariri/presentation/utils.dart';
 import 'package:flutter/material.dart';
 
+/// 経費カードウィジェット
 class ExpenseCard extends StatelessWidget {
+  /// タイトル
   final String title;
+
+  /// 説明文
   final String description;
+
+  /// 合計ラベル
   final String totalLabel;
+
+  /// アイテム数
   final int itemCount;
+
+  /// サンプル追加時のコールバック
   final VoidCallback onAddSample;
+
+  /// クリア時のコールバック
   final VoidCallback onClear;
 
+  /// コンストラクタ
   const ExpenseCard({
     super.key,
     required this.title,

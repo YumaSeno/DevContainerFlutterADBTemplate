@@ -1,5 +1,5 @@
-import 'package:cariri/application/app.dart';
-import 'package:cariri/core/local_storage.dart';
+import 'package:cariri/infrastructure/local_storage/local_storage.dart';
+import 'package:cariri/presentation/app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

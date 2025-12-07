@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'expense.freezed.dart';
 part 'expense.g.dart';
 
+/// 経費エンティティ
 @freezed
 sealed class Expense with _$Expense {
   const factory Expense({

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'v01.dart';
+part of 'home.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -40,7 +40,7 @@ final class _ViewModelProvider extends $NotifierProvider<_ViewModel, _UiState> {
   }
 }
 
-String _$_viewModelHash() => r'cbcbb990c427eb5dbb982f4b15d1e89af1f54b38';
+String _$_viewModelHash() => r'09a4d66894c322c0ef490639d59c3c8e94135b11';
 
 abstract class _$ViewModel extends $Notifier<_UiState> {
   _UiState build();

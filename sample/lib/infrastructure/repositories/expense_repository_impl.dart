@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:cariri/core/local_storage.dart';
+import 'package:cariri/infrastructure/local_storage/local_storage.dart';
 import 'package:cariri/domain/entities/expense.dart';
 import 'package:cariri/domain/repositories/expense_repository.dart';
 
+/// 経費リポジトリ実装
 class ExpenseRepositoryImpl implements ExpenseRepository {
   @override
   Future<List<Expense>> listExpenses() async {

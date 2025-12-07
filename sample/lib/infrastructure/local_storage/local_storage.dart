@@ -28,11 +28,20 @@ Future<void> clearPrefs() async {
 }
 
 /// ローカルに保存する設定項目とその型の一覧
+///
+/// Infrastructure層の機能であり、Domain/Application/Persistenceの
+/// 具体的な保存先としてSharedPreferencesを利用します。
 enum PrefItems<T> {
   // 項目を追加する場合、下の"get"および"set"関数の中に
   // 追加する項目の型の処理がないようであれば、処理を追加して下さい。
+
+  /// アプリのテーマモード
   themeMode<ThemeMode>(defaultValue: ThemeMode.system),
+
+  /// デバイスUUID
   deviceUuid<String?>(defaultValue: null),
+
+  /// 経費データ一覧(JSON文字列のリスト)
   expenses<List<String>>(defaultValue: <String>[]);
 
   const PrefItems({required this.defaultValue});
@@ -89,6 +98,7 @@ const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 /// パスワードなどの重要なデータを保存するために利用します。
 /// String型のみを許容します。
 enum SecureStorageItems {
+  /// パスワード
   password;
 
   /// ローカルに保存してあるデータを取得。

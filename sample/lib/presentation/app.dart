@@ -1,12 +1,16 @@
-import 'package:cariri/application/providers/theme_provider.dart';
-import 'package:cariri/application/router/router.dart';
+import 'package:cariri/presentation/providers/theme_provider.dart';
+import 'package:cariri/presentation/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+/// メインのアプリケーションウィジェット
+///
+/// ルートウィジェットとして機能し、テーマとルーティングを設定します。
+/// [ConsumerWidget]を継承しており、Riverpodのプロバイダーから状態を取得します。
 class App extends ConsumerWidget {
+  /// コンストラクタ
   const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);

@@ -8,12 +8,15 @@ part of 'theme_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// 現在のテーマモードを管理するプロバイダー
 
 @ProviderFor(CurrentTheme)
 const currentThemeProvider = CurrentThemeProvider._();
 
+/// 現在のテーマモードを管理するプロバイダー
 final class CurrentThemeProvider
     extends $NotifierProvider<CurrentTheme, ThemeMode> {
+  /// 現在のテーマモードを管理するプロバイダー
   const CurrentThemeProvider._()
     : super(
         from: null,
@@ -42,6 +45,8 @@ final class CurrentThemeProvider
 }
 
 String _$currentThemeHash() => r'74da0519a753cf572339703dbb690693747f4c12';
+
+/// 現在のテーマモードを管理するプロバイダー
 
 abstract class _$CurrentTheme extends $Notifier<ThemeMode> {
   ThemeMode build();

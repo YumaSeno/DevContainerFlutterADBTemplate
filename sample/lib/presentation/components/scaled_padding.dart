@@ -1,10 +1,17 @@
-import 'package:cariri/application/utils.dart';
+import 'package:cariri/presentation/utils.dart';
 import 'package:flutter/material.dart';
 
+/// スケーリングされたパディングウィジェット
+///
+/// 子ウィジェットに対して、テキストスケーリングに基づいたパディングを適用します。
 class ScaledPadding extends StatelessWidget {
+  /// 子ウィジェット
   final Widget child;
+
+  /// パディング
   final EdgeInsetsGeometry padding;
 
+  /// コンストラクタ
   const ScaledPadding({super.key, required this.child, required this.padding});
 
   @override

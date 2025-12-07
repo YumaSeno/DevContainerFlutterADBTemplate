@@ -1,16 +1,29 @@
-import 'package:cariri/application/components/scaled_padding.dart';
-import 'package:cariri/application/components/scaled_sizedbox.dart';
-import 'package:cariri/application/utils.dart';
+import 'package:cariri/presentation/components/scaled_padding.dart';
+import 'package:cariri/presentation/components/scaled_sizedbox.dart';
+import 'package:cariri/presentation/utils.dart';
 import 'package:flutter/material.dart';
 
+/// カウンターカードウィジェット
 class CounterCard extends StatelessWidget {
+  /// タイトル
   final String title;
+
+  /// 説明文
   final String description;
+
+  /// カウント値
   final int count;
+
+  /// インクリメント時のコールバック
   final VoidCallback onIncrement;
+
+  /// アクセントカラー
   final Color? accentColor;
+
+  /// アイコン
   final IconData? icon;
 
+  /// コンストラクタ
   const CounterCard({
     super.key,
     required this.title,
