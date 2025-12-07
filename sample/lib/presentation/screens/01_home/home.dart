@@ -1,3 +1,4 @@
+import 'package:cariri/presentation/components/loading.dart';
 import 'package:cariri/presentation/components/scaled_padding.dart';
 import 'package:cariri/presentation/components/scaled_sizedbox.dart';
 import 'package:flutter/material.dart';
@@ -28,18 +29,35 @@ part 'home.g.dart';
 /// 画面V01のルートウィジェット
 ///
 /// ホーム画面。
-/// ここでRiverpodの状態とHooks(アニメーション)を集約し、
-/// 実際のレイアウトはPhone/Tablet用のWidgetに委譲します。
-class Home extends HookConsumerWidget {
-  /// コンストラクタ
+class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 画面全体の状態は ViewModel (UiState) に集約
-    // ここでは notifier のみ取得し、状態は下位Widgetで select して購読する
-    final viewModel = ref.read(_viewModelProvider.notifier);
+    final hasValue = ref.watch(_viewModelProvider.select((s) => s.hasValue));
+    final hasError = ref.watch(_viewModelProvider.select((s) => s.hasError));
+    if (!hasValue) {
+      return const Loading();
+    } else if (hasError) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            'エラーが発生しました',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+      );
+    }
+    return const _ResponsiveLayout();
+  }
+}
 
+class _ResponsiveLayout extends HookWidget {
+  /// コンストラクタ
+  const _ResponsiveLayout();
+
+  @override
+  Widget build(BuildContext context) {
     // 画面限定のTextEditingControllerはHookで管理
     // （Domainとは無関係な、画面専用の一時的状態の例）
     final nameController = useTextEditingController();
@@ -47,19 +65,14 @@ class Home extends HookConsumerWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isTabletLayout = constraints.maxWidth > 600;
-        void onIncrementLocalCounter() => viewModel.incrementLocalTapCount();
 
         if (isTabletLayout) {
           return _TabletBody(
-            viewModel: viewModel,
             nameController: nameController,
-            onIncrementLocalCounter: onIncrementLocalCounter,
           );
         } else {
           return _PhoneBody(
-            viewModel: viewModel,
             nameController: nameController,
-            onIncrementLocalCounter: onIncrementLocalCounter,
           );
         }
       },

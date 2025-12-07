@@ -1,39 +1,39 @@
 part of 'home.dart';
 
 @riverpod
-final class _ViewModel extends _$ViewModel {
+class _ViewModel extends _$ViewModel {
+  // 1. buildメソッドをFuture型にし、初期化ロジックをここに書く
   @override
-  _UiState build() {
-    // 初期状態ではユースケースはまだ実行しない
-    // UI 側で明示的に読み込みアクションを呼び出す想定
-    return const _UiState(
-      monthlyTotalLabel: '¥0',
-      expenseCount: 0,
-      localTapCount: 0,
-    );
+  Future<_UiState> build() async {
+    return _fetchData(currentTapCount: 0);
   }
 
-  /// 経費一覧と今月合計を読み込みます。
-  ///
-  /// Domain層のユースケース `ListExpenses` と `MonthlyTotal`
-  /// を組み合わせて利用しているのがポイントです。
-  Future<void> loadThisMonthSummary() async {
+  // データ取得ロジックを抽出（再利用のため）
+  Future<_UiState> _fetchData({required int currentTapCount}) async {
     final listUseCase = ref.read(listExpensesUseCaseProvider);
     final totalUseCase = ref.read(monthlyTotalUseCaseProvider);
-
     final now = DateTime.now();
-    final expenses = await listUseCase();
-    final total = await totalUseCase(now.year, now.month);
 
-    state = state.copyWith(
+    // 並行取得でパフォーマンス向上（必要に応じて）
+    final (expenses, total) =
+        await (listUseCase(), totalUseCase(now.year, now.month)).wait;
+
+    return _UiState(
       monthlyTotalLabel: formatYen(total),
       expenseCount: expenses.length,
+      localTapCount: currentTapCount,
     );
   }
 
-  void addSampleExpense() {
+  // 2. データの追加処理
+  Future<void> addSampleExpense() async {
     final addUseCase = ref.read(addExpenseUseCaseProvider);
-    Future(() async {
+
+    // UI側でローディング表示を出したい場合、stateをloadingにする
+    state = const AsyncValue.loading();
+
+    // guardを使うことで、try-catchを省略し、エラー時はstateがAsyncErrorになる
+    state = await AsyncValue.guard(() async {
       final now = DateTime.now();
       final e = Expense(
         id: now.microsecondsSinceEpoch.toString(),
@@ -43,26 +43,41 @@ final class _ViewModel extends _$ViewModel {
         note: 'Sample expense',
       );
       await addUseCase(e);
-      await loadThisMonthSummary();
+
+      // データの再取得（現在のタップ数を維持したまま再取得）
+      // 直前のデータが存在すればそのタップ数を、なければ0を使用
+      final currentCount = state.value?.localTapCount ?? 0;
+      return _fetchData(currentTapCount: currentCount);
     });
   }
 
-  void clearExpenses() {
+  // 3. データのクリア処理
+  Future<void> clearExpenses() async {
     final repo = ref.read(expenseRepositoryProvider);
-    Future(() async {
+
+    state = const AsyncValue.loading();
+
+    state = await AsyncValue.guard(() async {
       await repo.clear();
-      state = state.copyWith(
+
+      // クリア後の状態を返却
+      final currentCount = state.value?.localTapCount ?? 0;
+      return _UiState(
         monthlyTotalLabel: '¥0',
         expenseCount: 0,
+        localTapCount: currentCount,
       );
     });
   }
 
-  /// 画面限定のローカルカウンタをインクリメントします。
-  ///
-  /// Domain層とは無関係なUI状態ですが、UiStateに含めることで
-  /// Phone/Tabletどちらのレイアウトからも同じ値を利用できます。
+  // 4. UI状態（タップカウント）のみの更新
   void incrementLocalTapCount() {
-    state = state.copyWith(localTapCount: state.localTapCount + 1);
+    // データがロード済みの場合のみ更新する
+    if (state.hasValue) {
+      final currentData = state.value!;
+      state = AsyncData(
+        currentData.copyWith(localTapCount: currentData.localTapCount + 1),
+      );
+    }
   }
 }

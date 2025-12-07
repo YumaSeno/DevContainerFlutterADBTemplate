@@ -2,14 +2,10 @@ part of 'home.dart';
 
 class _TabletBody extends StatelessWidget {
   const _TabletBody({
-    required this.viewModel,
     required this.nameController,
-    required this.onIncrementLocalCounter,
   });
 
-  final _ViewModel viewModel;
   final TextEditingController nameController;
-  final VoidCallback onIncrementLocalCounter;
 
   @override
   Widget build(BuildContext context) {
@@ -86,42 +82,47 @@ class _TabletBody extends StatelessWidget {
   }
 }
 
-/// Tablet用: ローカルカウンタ表示部分
+/// Tablet用: ローカルカウンタ表示
 class _TabletLocalCounter extends ConsumerWidget {
   const _TabletLocalCounter();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(_viewModelProvider.select((s) => s.localTapCount));
+    final count = ref.watch(
+      _viewModelProvider.select((s) => s.requireValue.localTapCount),
+    );
+
+    final vm = ref.read(_viewModelProvider.notifier);
+
     return CounterCard(
       title: 'Local Tap (UiState)',
-      description:
-          'このカウンタは画面用UiStateで管理されます。\r\nPhone/Tabletどちらのレイアウトでも同じ値が共有されます。',
+      description: 'このカウンタは画面用UiStateで管理されます。',
       count: count,
-      onIncrement: () =>
-          ref.read(_viewModelProvider.notifier).incrementLocalTapCount(),
+      onIncrement: vm.incrementLocalTapCount,
       accentColor: Theme.of(context).colorScheme.secondary,
       icon: Icons.memory,
     );
   }
 }
 
-/// Tablet用: 経費サマリ表示部分
+/// Tablet用: 経費サマリ表示
 class _TabletExpenseSummary extends ConsumerWidget {
   const _TabletExpenseSummary();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(_viewModelProvider.select(
-      (s) => (s.monthlyTotalLabel, s.expenseCount),
-    ));
+    final (monthlyTotalLabel, expenseCount) = ref.watch(
+      _viewModelProvider.select((s) =>
+          (s.requireValue.monthlyTotalLabel, s.requireValue.expenseCount)),
+    );
+
     final vm = ref.read(_viewModelProvider.notifier);
 
     return ExpenseCard(
       title: 'Expenses (App)',
-      description: 'このカウンタはアプリ全体で共有されます。別の画面からも値を参照・更新できます。',
-      totalLabel: state.$1,
-      itemCount: state.$2,
+      description: 'この領域はドメイン（経費）ロジックのサンプルです。',
+      totalLabel: monthlyTotalLabel,
+      itemCount: expenseCount,
       onAddSample: vm.addSampleExpense,
       onClear: vm.clearExpenses,
     );

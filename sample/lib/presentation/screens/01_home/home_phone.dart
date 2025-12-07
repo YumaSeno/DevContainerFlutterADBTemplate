@@ -2,14 +2,10 @@ part of 'home.dart';
 
 class _PhoneBody extends StatelessWidget {
   const _PhoneBody({
-    required this.viewModel,
     required this.nameController,
-    required this.onIncrementLocalCounter,
   });
 
-  final _ViewModel viewModel;
   final TextEditingController nameController;
-  final VoidCallback onIncrementLocalCounter;
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +43,14 @@ class _PhoneBody extends StatelessWidget {
       body: Center(
         child: ListView(
           children: [
-            Text(
+            const Text(
               'Phone 向け表示',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const ScaledSizedBox(height: 16),
             ScaledPadding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 12),
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 12),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 spacing: 12.scaled(context),
@@ -79,38 +75,40 @@ class _PhoneBody extends StatelessWidget {
   }
 }
 
-/// Phone用: ローカルカウンタ表示部分だけがUiState.localTapCountを購読
+/// Phone用: ローカルカウンタ表示
 class _PhoneLocalCounter extends ConsumerWidget {
   const _PhoneLocalCounter();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(_viewModelProvider.select((s) => s.localTapCount));
-    return SizedBox(
-      width: double.infinity,
-      child: CounterCard(
-        title: 'Local Tap (UiState)',
-        description:
-            'このカウンタは画面用UiStateで管理されます。\r\nPhone/Tabletどちらのレイアウトでも同じ値が共有されます。',
-        count: count,
-        onIncrement: () =>
-            ref.read(_viewModelProvider.notifier).incrementLocalTapCount(),
-        accentColor: Theme.of(context).colorScheme.secondary,
-        icon: Icons.touch_app,
-      ),
+    final count = ref.watch(
+      _viewModelProvider.select((s) => s.requireValue.localTapCount),
+    );
+
+    final vm = ref.read(_viewModelProvider.notifier);
+
+    return CounterCard(
+      title: 'Local Tap (UiState)',
+      description: 'このカウンタは画面用UiStateで管理されます。',
+      count: count,
+      onIncrement: vm.incrementLocalTapCount,
+      accentColor: Theme.of(context).colorScheme.secondary,
+      icon: Icons.touch_app,
     );
   }
 }
 
-/// Phone用: 経費サマリ表示部分だけがmonthlyTotalLabel/expenseCountを購読
+/// Phone用: 経費サマリ表示
 class _PhoneExpenseSummary extends ConsumerWidget {
   const _PhoneExpenseSummary();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(_viewModelProvider.select(
-      (s) => (s.monthlyTotalLabel, s.expenseCount),
-    ));
+    final (monthlyTotalLabel, expenseCount) = ref.watch(
+      _viewModelProvider.select((s) =>
+          (s.requireValue.monthlyTotalLabel, s.requireValue.expenseCount)),
+    );
+
     final vm = ref.read(_viewModelProvider.notifier);
 
     return SizedBox(
@@ -118,8 +116,8 @@ class _PhoneExpenseSummary extends ConsumerWidget {
       child: ExpenseCard(
         title: 'Expenses (App)',
         description: 'この領域はドメイン（経費）ロジックのサンプルです。',
-        totalLabel: state.$1,
-        itemCount: state.$2,
+        totalLabel: monthlyTotalLabel,
+        itemCount: expenseCount,
         onAddSample: vm.addSampleExpense,
         onClear: vm.clearExpenses,
       ),
