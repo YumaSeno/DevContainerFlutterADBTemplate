@@ -63,8 +63,8 @@ ENV PATH=${ANDROID_SDK_ROOT}/platforms:$PATH
 ENV FLUTTER_ROOT=/opt/flutter
 
 # Flutter SDK のダウンロードと展開
-RUN wget -P /tmp https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.4-stable.tar.xz && \
-    tar -xf /tmp/flutter_linux_3.24.4-stable.tar.xz -C /opt/
+RUN wget -P /tmp https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.38.4-stable.tar.xz && \
+    tar -xf /tmp/flutter_linux_3.38.4-stable.tar.xz -C /opt/
 
 # Flutterのパスを設定
 ENV PATH=${FLUTTER_ROOT}/bin:$PATH
@@ -75,13 +75,14 @@ RUN rm -rf /tmp/*
 # RUN chown -R $CONTAINER_USER:$CONTAINER_USER /opt/*
 
 # Android SDK の各コンポーネントを sdkmanager でインストール（yesで自動応答）
-RUN yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-34" "build-tools;33.0.1"
+RUN yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-36" "build-tools;28.0.3"
 
 # Android ライセンスに同意
 RUN yes | flutter doctor --android-licenses
 # Flutter の初回設定（analytics無効化）
 RUN flutter --disable-analytics
 
+# 最後に root ユーザーに戻す
 USER root
 
 # コンテナ起動時にbashを実行
