@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 /// BuildContext拡張
 extension ResponsiveSize on BuildContext {
@@ -23,5 +24,15 @@ extension TextScaleExtension on num {
   /// Webの rem のような挙動を再現
   double scaled(BuildContext context) {
     return MediaQuery.textScalerOf(context).scale(toDouble());
+  }
+}
+
+/// AsyncNotifier拡張
+mixin $AsyncNotifierMixin<T> on $AsyncNotifier<T> {
+  /// 現在の値が存在する場合に、その値を維持したままerrorやloading状態をクリアする
+  void clearState() {
+    if (state.hasValue) {
+      state = AsyncValue.data(state.value as T);
+    }
   }
 }

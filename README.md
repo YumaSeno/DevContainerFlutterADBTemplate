@@ -11,11 +11,11 @@ flutter create --org your_domain --project-name your_app_name .
 flutter create --org io.github.yumaseno --project-name test .
 ```
 ---
-また、開発時にはRiverpod, flutter_hooks, go_router, freezedの利用をおすすめします。　  
+また、開発時にはRiverpod, flutter_hooks, auto_route, freezedの利用をおすすめします。　  
 サンプルプロジェクトを利用する場合は以下を実行してください。
 ```bash
-flutter pub add hooks_riverpod riverpod_annotation freezed_annotation flutter_hooks go_router shared_preferences flutter_secure_storage decimal intl
-flutter pub add --dev build_runner freezed json_serializable custom_lint riverpod_generator riverpod_lint
+flutter pub add hooks_riverpod riverpod_annotation freezed_annotation flutter_hooks auto_route shared_preferences flutter_secure_storage decimal intl
+flutter pub add --dev build_runner auto_route_generator freezed json_serializable custom_lint riverpod_generator riverpod_lint
 ```
 analysis_options.yaml
 ```yaml

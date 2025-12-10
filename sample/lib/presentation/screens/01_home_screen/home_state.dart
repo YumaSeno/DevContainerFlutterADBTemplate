@@ -1,4 +1,4 @@
-part of 'home.dart';
+part of 'home_screen.dart';
 
 @freezed
 sealed class _UiState with _$UiState {

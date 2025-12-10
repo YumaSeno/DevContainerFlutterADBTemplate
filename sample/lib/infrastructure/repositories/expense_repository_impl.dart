@@ -7,8 +7,6 @@ import 'package:cariri/domain/repositories/expense_repository.dart';
 class ExpenseRepositoryImpl implements ExpenseRepository {
   @override
   Future<List<Expense>> listExpenses() async {
-    // 擬似的な遅延を追加
-    await Future.delayed(const Duration(milliseconds: 1000));
     final raw = PrefItems.expenses.get();
     return raw.map((s) {
       final m = json.decode(s) as Map<String, dynamic>;
@@ -18,6 +16,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
 
   @override
   Future<void> addExpense(Expense e) async {
+    await Future.delayed(const Duration(milliseconds: 500)); // 擬似的な遅延
     final list = await listExpenses();
     list.add(e);
     final encoded = list.map((x) => json.encode(x.toJson())).toList();

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home.dart';
+part of 'list_screen.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -33,7 +33,7 @@ final class _ViewModelProvider
   _ViewModel create() => _ViewModel();
 }
 
-String _$_viewModelHash() => r'92a4cb77e0355ebe6ffcd13a02e2cee34f771bb9';
+String _$_viewModelHash() => r'0dfb0ea7c8b4691545f77090b8de81009cb9698c';
 
 abstract class _$ViewModel extends $AsyncNotifier<_UiState> {
   FutureOr<_UiState> build();

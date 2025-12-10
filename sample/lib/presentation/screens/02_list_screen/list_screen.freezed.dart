@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'home.dart';
+part of 'list_screen.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UiState {
 
- String get monthlyTotalLabel; int get expenseCount; int get localTapCount;
+ List<Expense> get expenses;
 /// Create a copy of _UiState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ _$UiStateCopyWith<_UiState> get copyWith => __$UiStateCopyWithImpl<_UiState>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UiState&&(identical(other.monthlyTotalLabel, monthlyTotalLabel) || other.monthlyTotalLabel == monthlyTotalLabel)&&(identical(other.expenseCount, expenseCount) || other.expenseCount == expenseCount)&&(identical(other.localTapCount, localTapCount) || other.localTapCount == localTapCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UiState&&const DeepCollectionEquality().equals(other.expenses, expenses));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,monthlyTotalLabel,expenseCount,localTapCount);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(expenses));
 
 @override
 String toString() {
-  return '_UiState(monthlyTotalLabel: $monthlyTotalLabel, expenseCount: $expenseCount, localTapCount: $localTapCount)';
+  return '_UiState(expenses: $expenses)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class _$UiStateCopyWith<$Res>  {
   factory _$UiStateCopyWith(_UiState value, $Res Function(_UiState) _then) = __$UiStateCopyWithImpl;
 @useResult
 $Res call({
- String monthlyTotalLabel, int expenseCount, int localTapCount
+ List<Expense> expenses
 });
 
 
@@ -62,12 +62,10 @@ class __$UiStateCopyWithImpl<$Res>
 
 /// Create a copy of _UiState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? monthlyTotalLabel = null,Object? expenseCount = null,Object? localTapCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? expenses = null,}) {
   return _then(_self.copyWith(
-monthlyTotalLabel: null == monthlyTotalLabel ? _self.monthlyTotalLabel : monthlyTotalLabel // ignore: cast_nullable_to_non_nullable
-as String,expenseCount: null == expenseCount ? _self.expenseCount : expenseCount // ignore: cast_nullable_to_non_nullable
-as int,localTapCount: null == localTapCount ? _self.localTapCount : localTapCount // ignore: cast_nullable_to_non_nullable
-as int,
+expenses: null == expenses ? _self.expenses : expenses // ignore: cast_nullable_to_non_nullable
+as List<Expense>,
   ));
 }
 
@@ -149,10 +147,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String monthlyTotalLabel,  int expenseCount,  int localTapCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Expense> expenses)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case __UiState() when $default != null:
-return $default(_that.monthlyTotalLabel,_that.expenseCount,_that.localTapCount);case _:
+return $default(_that.expenses);case _:
   return orElse();
 
 }
@@ -170,10 +168,10 @@ return $default(_that.monthlyTotalLabel,_that.expenseCount,_that.localTapCount);
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String monthlyTotalLabel,  int expenseCount,  int localTapCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Expense> expenses)  $default,) {final _that = this;
 switch (_that) {
 case __UiState():
-return $default(_that.monthlyTotalLabel,_that.expenseCount,_that.localTapCount);}
+return $default(_that.expenses);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -187,10 +185,10 @@ return $default(_that.monthlyTotalLabel,_that.expenseCount,_that.localTapCount);
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String monthlyTotalLabel,  int expenseCount,  int localTapCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Expense> expenses)?  $default,) {final _that = this;
 switch (_that) {
 case __UiState() when $default != null:
-return $default(_that.monthlyTotalLabel,_that.expenseCount,_that.localTapCount);case _:
+return $default(_that.expenses);case _:
   return null;
 
 }
@@ -202,12 +200,16 @@ return $default(_that.monthlyTotalLabel,_that.expenseCount,_that.localTapCount);
 
 
 class __UiState implements _UiState {
-  const __UiState({required this.monthlyTotalLabel, required this.expenseCount, required this.localTapCount});
+  const __UiState({required final  List<Expense> expenses}): _expenses = expenses;
   
 
-@override final  String monthlyTotalLabel;
-@override final  int expenseCount;
-@override final  int localTapCount;
+ final  List<Expense> _expenses;
+@override List<Expense> get expenses {
+  if (_expenses is EqualUnmodifiableListView) return _expenses;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_expenses);
+}
+
 
 /// Create a copy of _UiState
 /// with the given fields replaced by the non-null parameter values.
@@ -219,16 +221,16 @@ _$_UiStateCopyWith<__UiState> get copyWith => __$_UiStateCopyWithImpl<__UiState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is __UiState&&(identical(other.monthlyTotalLabel, monthlyTotalLabel) || other.monthlyTotalLabel == monthlyTotalLabel)&&(identical(other.expenseCount, expenseCount) || other.expenseCount == expenseCount)&&(identical(other.localTapCount, localTapCount) || other.localTapCount == localTapCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is __UiState&&const DeepCollectionEquality().equals(other._expenses, _expenses));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,monthlyTotalLabel,expenseCount,localTapCount);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_expenses));
 
 @override
 String toString() {
-  return '_UiState(monthlyTotalLabel: $monthlyTotalLabel, expenseCount: $expenseCount, localTapCount: $localTapCount)';
+  return '_UiState(expenses: $expenses)';
 }
 
 
@@ -239,7 +241,7 @@ abstract mixin class _$_UiStateCopyWith<$Res> implements _$UiStateCopyWith<$Res>
   factory _$_UiStateCopyWith(__UiState value, $Res Function(__UiState) _then) = __$_UiStateCopyWithImpl;
 @override @useResult
 $Res call({
- String monthlyTotalLabel, int expenseCount, int localTapCount
+ List<Expense> expenses
 });
 
 
@@ -256,12 +258,10 @@ class __$_UiStateCopyWithImpl<$Res>
 
 /// Create a copy of _UiState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? monthlyTotalLabel = null,Object? expenseCount = null,Object? localTapCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? expenses = null,}) {
   return _then(__UiState(
-monthlyTotalLabel: null == monthlyTotalLabel ? _self.monthlyTotalLabel : monthlyTotalLabel // ignore: cast_nullable_to_non_nullable
-as String,expenseCount: null == expenseCount ? _self.expenseCount : expenseCount // ignore: cast_nullable_to_non_nullable
-as int,localTapCount: null == localTapCount ? _self.localTapCount : localTapCount // ignore: cast_nullable_to_non_nullable
-as int,
+expenses: null == expenses ? _self._expenses : expenses // ignore: cast_nullable_to_non_nullable
+as List<Expense>,
   ));
 }
 

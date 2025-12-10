@@ -1,9 +1,7 @@
-part of 'home.dart';
+part of 'home_screen.dart';
 
 class _TabletBody extends StatelessWidget {
-  const _TabletBody({
-    required this.nameController,
-  });
+  const _TabletBody({required this.nameController});
 
   final TextEditingController nameController;
 
@@ -22,8 +20,8 @@ class _TabletBody extends StatelessWidget {
                   theme == ThemeMode.dark
                       ? Icons.dark_mode
                       : theme == ThemeMode.light
-                          ? Icons.light_mode
-                          : Icons.brightness_auto,
+                      ? Icons.light_mode
+                      : Icons.brightness_auto,
                 ),
                 onPressed: () {
                   final notifier = ref.read(currentThemeProvider.notifier);
@@ -46,7 +44,7 @@ class _TabletBody extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'Tablet 向け表示',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
@@ -60,8 +58,8 @@ class _TabletBody extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10.scaled(context),
                       children: [
-                        const Expanded(child: _TabletLocalCounter()),
-                        const Expanded(child: _TabletExpenseSummary()),
+                        const Expanded(child: _HomeLocalCounter()),
+                        const Expanded(child: _ExpenseSummary()),
                       ],
                     ),
                     TextField(
@@ -78,53 +76,6 @@ class _TabletBody extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Tablet用: ローカルカウンタ表示
-class _TabletLocalCounter extends ConsumerWidget {
-  const _TabletLocalCounter();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(
-      _viewModelProvider.select((s) => s.requireValue.localTapCount),
-    );
-
-    final vm = ref.read(_viewModelProvider.notifier);
-
-    return CounterCard(
-      title: 'Local Tap (UiState)',
-      description: 'このカウンタは画面用UiStateで管理されます。',
-      count: count,
-      onIncrement: vm.incrementLocalTapCount,
-      accentColor: Theme.of(context).colorScheme.secondary,
-      icon: Icons.memory,
-    );
-  }
-}
-
-/// Tablet用: 経費サマリ表示
-class _TabletExpenseSummary extends ConsumerWidget {
-  const _TabletExpenseSummary();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final (monthlyTotalLabel, expenseCount) = ref.watch(
-      _viewModelProvider.select((s) =>
-          (s.requireValue.monthlyTotalLabel, s.requireValue.expenseCount)),
-    );
-
-    final vm = ref.read(_viewModelProvider.notifier);
-
-    return ExpenseCard(
-      title: 'Expenses (App)',
-      description: 'この領域はドメイン（経費）ロジックのサンプルです。',
-      totalLabel: monthlyTotalLabel,
-      itemCount: expenseCount,
-      onAddSample: vm.addSampleExpense,
-      onClear: vm.clearExpenses,
     );
   }
 }
